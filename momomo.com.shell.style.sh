@@ -57,7 +57,7 @@ momomo.com.shell.style() {
 	PRIVATE_MOMOMO_COM_COLOR_BLACK_BOLD="1;30m"                 # Black
 	PRIVATE_MOMOMO_COM_COLOR_RED_BOLD="1;31m"                   # Red
 	PRIVATE_MOMOMO_COM_COLOR_GREEN_BOLD="1;32m"                 # Green
-	PRIVATE_MOMOMO_COM_COLOR_YELL_BOLDOw="1;33m"                # Yellow
+	PRIVATE_MOMOMO_COM_COLOR_YELLOW_BOLD="1;33m"                # Yellow
 	PRIVATE_MOMOMO_COM_COLOR_BLUE_BOLD="1;34m"                  # Blue
 	PRIVATE_MOMOMO_COM_COLOR_PURP_BOLDLe="1;35m"                # Purple
 	PRIVATE_MOMOMO_COM_COLOR_CYAN_BOLD="1;36m"                  # Cyan
@@ -94,14 +94,14 @@ momomo.com.shell.style() {
 	PRIVATE_MOMOMO_COM_COLOR_WHITE_INTENSE="0;97m"              # White
 	
 	# Bold High Intensity
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_BLACK_INTENSE="1;90m"         # Black
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_RED_INTENSE="1;91m"           # Red
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_GREEN_INTENSE="1;92m"         # Green
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_YELL_INTENSEOw="1;93m"        # Yellow
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_BLUE_INTENSE="1;94m"          # Blue
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_PURP_INTENSELe="1;95m"        # Purple
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_CYAN_INTENSE="1;96m"          # Cyan
-	PRIVATE_MOMOMO_COM_COLOR_BOLD_WHITE_INTENSE="1;97m"         # White
+	PRIVATE_MOMOMO_COM_COLOR_BLACK_BOLD_INTENSE="1;90m"         # Black
+	PRIVATE_MOMOMO_COM_COLOR_RED_BOLD_INTENSE="1;91m"           # Red
+	PRIVATE_MOMOMO_COM_COLOR_GREEN_BOLD_INTENSE="1;92m"         # Green
+	PRIVATE_MOMOMO_COM_COLOR_YELL_BOLD_INTENSEOw="1;93m"        # Yellow
+	PRIVATE_MOMOMO_COM_COLOR_BLUE_BOLD_INTENSE="1;94m"          # Blue
+	PRIVATE_MOMOMO_COM_COLOR_PURP_BOLD_INTENSELe="1;95m"        # Purple
+	PRIVATE_MOMOMO_COM_COLOR_CYAN_BOLD_INTENSE="1;96m"          # Cyan
+	PRIVATE_MOMOMO_COM_COLOR_WHITE_BOLD_INTENSE="1;97m"         # White
 	
 	# High Intensity backgrounds
 	PRIVATE_MOMOMO_COM_COLOR_BLACK_BOLD_INTENSE_BG="0;100m"     # Black
@@ -164,21 +164,23 @@ momomo.com.shell.style() {
 	    local branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')";
 	    
 	    if [[ "$branch" != "" ]]; then
-	        momomo.com.shell.style.out.method " $( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_CYAN}" '(' )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE}" "${branch}" )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_CYAN}" ')' )" 
+	        momomo.com.shell.style.out.method " $( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_YELLOW_BOLD}" '(' )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE}" "${branch}" )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_YELLOW_BOLD}" ')' )" 
 	    fi
 	}
 	
 	#############################################
 	     #### We choose implementation ####
-	momomo.com.shell.style.interface.implemented.using.echo
-	# momomo.com.shell.style.interface.implemented.using.printf
+	# momomo.com.shell.style.interface.implemented.using.echo
+	  momomo.com.shell.style.interface.implemented.using.printf
 	#############################################
 	
-	local  user="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_CYAN}"   "\u" )"
-	local    at="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_YELLOW}" "@"  )"
-	local   dir="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_CYAN}"   "\w" )"
-	local reset="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_RESET}"  ""   )"
+	local  user="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_CYAN_BOLD}"     "\u" )"
+	local    at="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_GREEN}"         "@"  )"
+	local   dir="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_WHITE_BOLD}"    "\w" )"
+	local arrow="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_RED_BOLD}"      "⇒"  )"
+	local reset="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_RESET}"         ""   )"
 	
-	export PS1="${user}${at}${dir}\$( momomo.com.shell.style.git.branch ) ⇒ ${reset}"
+	# Finalize
+	export PS1="${user}${at}${dir}\$( momomo.com.shell.style.git.branch ) ${arrow} ${reset}"
 
 } && momomo.com.shell.style;
