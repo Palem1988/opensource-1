@@ -172,8 +172,8 @@
 		
 		#############################################
 		     #### We choose implementation ####
-		# momomo.com.shell.style.interface.implemented.using.echo
-		  momomo.com.shell.style.interface.implemented.using.printf
+		  momomo.com.shell.style.interface.implemented.using.echo
+		# momomo.com.shell.style.interface.implemented.using.printf
 		#############################################
 		
 		local  user="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_CYAN_BOLD}"     "\u" )"
