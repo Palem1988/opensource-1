@@ -41,74 +41,74 @@
  ######################################################################################################################################
 
 momomo.com.shell.style() {
-PRIVATE_MOMOMO_COM_COLOR_BLUE="34m" 
-PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT="36m"
-
-{ # ----- ABSTRACT :: TO BE OVERRIDEN ------
-	PRIVATE_MOMOMO_COM_ABSTRACT_LEFT="" 
-	PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT=""
-	
-	momomo.com.shell.style.out() { :; }
-} # ----------------------
-
-momomo.com.shell.style.color() {
-	local color="${1}"; local value="${2}";
-	
-	momomo.com.shell.style.out "${PRIVATE_MOMOMO_COM_ABSTRACT_LEFT}\e[${color}${PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT}${value}${PRIVATE_MOMOMO_COM_ABSTRACT_LEFT}\e[m${PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT}" 
-}
-
-# Using printf: Due to some bugs on Mac at least, printf and \001 and \002 leads to terminal bugs unless they are used in a function
-momomo.com.shell.style.interface.implemented.using.printf() {
-	PRIVATE_MOMOMO_COM_ABSTRACT_LEFT="\["; PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT="\]"
-	
-	momomo.com.shell.style.out() {
-		printf "$@"
-	}
+		PRIVATE_MOMOMO_COM_COLOR_BLUE="34m" 
+		PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT="36m"
+		
+		{ # ----- ABSTRACT :: TO BE OVERRIDEN ------
+			PRIVATE_MOMOMO_COM_ABSTRACT_LEFT="" 
+			PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT=""
 			
-	# Here we replaced the dynamic method output \[ and \] with \001 and 002 which is find from a dynamic method			
-	momomo.com.shell.style.out.method() {
-		local out="${1}"
+			momomo.com.shell.style.out() { :; }
+		} # ----------------------
 		
-		local out="${out//\\[/\\001}"; out="${out//\\]/\\002}"
+		momomo.com.shell.style.color() {
+			local color="${1}"; local value="${2}";
+			
+			momomo.com.shell.style.out "${PRIVATE_MOMOMO_COM_ABSTRACT_LEFT}\e[${color}${PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT}${value}${PRIVATE_MOMOMO_COM_ABSTRACT_LEFT}\e[m${PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT}" 
+		}
 		
-		printf "${out}"
-	}
-}
-
-# Using echo: Instead we can rely on echo by using \001 and \002 from the getgo and do not need to replace in dynamic methods   
-momomo.com.shell.style.interface.implemented.using.echo() {
-	PRIVATE_MOMOMO_COM_ABSTRACT_LEFT="\001"; PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT="\002"
-	
-	momomo.com.shell.style.out() {
-		echo "$@"
-	}
-	
-	# Simply output since we are relying on \001 and and \002 which works fine with printf from a dynamic method 
-	momomo.com.shell.style.out.method() {
-		local out="${1}"
+		# Using printf: Due to some bugs on Mac at least, printf and \001 and \002 leads to terminal bugs unless they are used in a function
+		momomo.com.shell.style.interface.implemented.using.printf() {
+			PRIVATE_MOMOMO_COM_ABSTRACT_LEFT="\["; PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT="\]"
+			
+			momomo.com.shell.style.out() {
+				printf "$@"
+			}
+					
+			# Here we replaced the dynamic method output \[ and \] with \001 and 002 which is find from a dynamic method			
+			momomo.com.shell.style.out.method() {
+				local out="${1}"
+				
+				local out="${out//\\[/\\001}"; out="${out//\\]/\\002}"
+				
+				printf "${out}"
+			}
+		}
 		
-		printf "${out}"
-	}
-}
-
-momomo.com.shell.style.git.branch() {
-	local branch="$(git branch 2> /dev/null | sed -e '/^[^#]/d' -e 's/# \(.#\)/\1/')";
-	
-	if [[ "$branch" != "" ]]; then
-		momomo.com.shell.style.out.method " $( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" '(' )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE}" "${branch}" )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" ')' )" 
-	fi
-}
-
-#############################################
-	 #### We choose implementation ####
-# momomo.com.shell.style.interface.implemented.using.echo
-momomo.com.shell.style.interface.implemented.using.printf
-#############################################
-
-local user="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" "\u")"
-local   at="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE}"        "@")"
-local  dir="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" "\w")"
-
-export PS1="${user}${at}${dir}\$( momomo.com.shell.style.git.branch ) ⇒ "
+		# Using echo: Instead we can rely on echo by using \001 and \002 from the getgo and do not need to replace in dynamic methods   
+		momomo.com.shell.style.interface.implemented.using.echo() {
+			PRIVATE_MOMOMO_COM_ABSTRACT_LEFT="\001"; PRIVATE_MOMOMO_COM_ABSTRACT_RIGHT="\002"
+			
+			momomo.com.shell.style.out() {
+				echo "$@"
+			}
+			
+			# Simply output since we are relying on \001 and and \002 which works fine with printf from a dynamic method 
+			momomo.com.shell.style.out.method() {
+				local out="${1}"
+				
+				printf "${out}"
+			}
+		}
+		
+		momomo.com.shell.style.git.branch() {
+			local branch="$(git branch 2> /dev/null | sed -e '/^[^#]/d' -e 's/# \(.#\)/\1/')";
+			
+			if [[ "$branch" != "" ]]; then
+				momomo.com.shell.style.out.method " $( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" '(' )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE}" "${branch}" )$( momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" ')' )" 
+			fi
+		}
+		
+		#############################################
+			 #### We choose implementation ####
+		# momomo.com.shell.style.interface.implemented.using.echo
+		momomo.com.shell.style.interface.implemented.using.printf
+		#############################################
+		
+		local user="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" "\u")"
+		local   at="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE}"        "@")"
+		local  dir="$(momomo.com.shell.style.color "${PRIVATE_MOMOMO_COM_COLOR_BLUE_LIGHT}" "\w")"
+		
+		export PS1="${user}${at}${dir}\$( momomo.com.shell.style.git.branch ) ⇒ "
 
 } && momomo.com.shell.style;
